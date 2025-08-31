@@ -7,29 +7,27 @@
   ...
 }:
 stdenvNoCC.mkDerivation rec {
-  name = "f1multiviewer";
-  version = "1.43.2";
+  name = "multiviewer";
+  version = "2.0.2";
 
   src = fetchzip {
-    url = "https://releases.multiviewer.app/download/243289395/MultiViewer.for.F1-linux-x64-1.43.2.zip";
-    hash = "sha256-kMXQROy21vwc1T/6JZKyDSdbrlpElrtDAU8IVSOYcaE=";
+    url = "https://releases.multiviewer.app/download/287987986/MultiViewer-linux-x64-2.0.2.zip";
+    hash = "sha256-fHkVprmxGbqVTt3fXuuh6yXCIucvIsdViCsHlJ2UhpU=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
   # buildInputs = [ xdg-utils ];
   desktopItem = makeDesktopItem {
-    name = "f1multiviewer";
-    exec = "f1multiviewer %U";
-    icon = "f1multiviewer";
-    desktopName = "MultiViewer for F1";
+    name = "multiviewer";
+    exec = "multiviewer %U";
+    icon = "multiviewer";
+    desktopName = "MultiViewer";
   };
 
   installPhase = ''
-    install -Dm0644 {${desktopItem},$out}/share/applications/f1multiviewer.desktop
-    install -Dm0644 $src/resources/app/.webpack/main/88a36af69fdc182ce561a66de78de7b1.png \
-      $out/share/pixmaps/f1multiviewer.png
+    install -Dm0644 {${desktopItem},$out}/share/applications/multiviewer.desktop
     mkdir -p $out/bin/
-    ln -s $src/'MultiViewer for F1' $out/bin/f1multiviewer
+    ln -s $src/multiviewer $out/bin/multiviewer
   '';
 
   # https://github.com/f1multiviewer/issue-tracker/issues/506
@@ -37,7 +35,7 @@ stdenvNoCC.mkDerivation rec {
   postFixup = ''
     runHook preInstall
 
-    wrapProgram $out/bin/f1multiviewer \
+    wrapProgram $out/bin/multiviewer \
       --add-flags "--no-sandbox" \
       --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland --enable-features=WaylandWindowDecorations}}" \
 
