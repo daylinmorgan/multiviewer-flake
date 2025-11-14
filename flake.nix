@@ -1,5 +1,5 @@
 {
-  description = "f1multiviewer";
+  description = "multiviewer";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -9,15 +9,17 @@
     { self, nixpkgs }:
     let
       inherit (nixpkgs.lib) genAttrs;
-      # supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
-      supportedSystems = [ "x86_64-linux" ];
-      forAllSystems = f: genAttrs supportedSystems (system: f nixpkgs.legacyPackages.${system});
+      systems = [ "x86_64-linux" ]; # "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
+      forSystem = f: system: f system (import nixpkgs { inherit system; });
+      forAllSystems = f: genAttrs systems (forSystem f);
     in
     {
-      packages = forAllSystems (pkgs: {
-        f1multiviewer = pkgs.callPackage ./default.nix { };
-        default = self.packages.${pkgs.system}.f1multiviewer;
-      });
+      packages = forAllSystems (
+        system: pkgs: {
+          multiviewer = pkgs.callPackage ./default.nix { };
+          default = self.packages.${system}.multiviewer;
+        }
+      );
       formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
     };
 }
