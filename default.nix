@@ -8,11 +8,11 @@
 }:
 stdenvNoCC.mkDerivation rec {
   name = "multiviewer";
-  version = "2.0.2";
+  version = "2.3.0";
 
   src = fetchzip {
-    url = "https://releases.multiviewer.app/download/287987986/MultiViewer-linux-x64-2.0.2.zip";
-    hash = "sha256-fHkVprmxGbqVTt3fXuuh6yXCIucvIsdViCsHlJ2UhpU=";
+    url = "https://releases.multiviewer.app/download/305607200/MultiViewer-linux-x64-2.3.0.zip";
+    hash = "sha256-NeMp4i0GbwgxUPna9IazIrW/BLAOjIclc97ufLx4Zxw=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
